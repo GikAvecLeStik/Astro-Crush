@@ -1,0 +1,63 @@
+#include <iostream>
+#include <windows.h>
+
+using namespace std;
+
+#define MINX 8
+#define MINY 2
+#define MAXX 160
+#define MAXY 46
+
+void MaximizarVentana();
+void MoverCursor(short x, short y);
+void pantalla ();
+
+//-----------------------------------------
+int main ()
+{
+    system("Color 0A");
+    short x = MINX ,y = MINY;
+    MaximizarVentana();
+    MoverCursor(x,y);
+
+    pantalla ();
+
+    cout << "\n\n";
+    system ("pause");
+    return 0;
+}
+//-----------------------------------------
+void pantalla ()
+{
+  short x = MINX ,y = MINY;
+     for (int i = 0; i <= MAXX ; i++){
+        cout << ".";
+    }
+    for (int i = 0; i <= MAXY ; i++){
+        MoverCursor(x,y);
+        cout << ".";
+        MoverCursor(168,++y);
+        cout << "." << endl;
+    }
+    MoverCursor(x,y);
+    for (int i = 0; i <= MAXX ; i++){
+        cout << ".";
+    }
+}
+//-----------------------------------------
+void MaximizarVentana()
+{
+    keybd_event(VK_MENU,0x38,0,0);
+    keybd_event(VK_RETURN,0x1c,0,0);
+    keybd_event(VK_RETURN,0x1c,KEYEVENTF_KEYUP,0);
+    keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
+    return;
+}
+//-----------------------------------------
+void MoverCursor(short x, short y)
+{
+    COORD coord = {x, y};
+
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+}
+//-----------------------------------------
