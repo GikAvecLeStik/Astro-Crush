@@ -11,10 +11,10 @@ using namespace std;
 #define MAXY 46
 
 // Limites para el jugador
-#define MINCOL 11 // X
-#define MINREN 5  // y
-#define MAXCOL 165  // X
-#define MAXREN 50 // Y
+#define MINCOL 20 // X
+#define MINREN 9  // y
+#define MAXCOL 156  // X
+#define MAXREN 46 // Y
 
 //controles
 #define FLECHA_ARRIBA 72
@@ -34,6 +34,8 @@ using namespace std;
 void MaximizarVentana();
 void MoverCursor(short x, short y);
 void pantalla ();
+void limite ();
+
 
 //-----------------------------------------
 int main ()
@@ -45,13 +47,14 @@ int main ()
 
     MaximizarVentana();
     pantalla ();
+    limite ();
 
-    MoverCursor(MINCOL,MINREN);
+
+    MoverCursor(x,y);
     while(true){
         if(kbhit()){
           tecla = getch();
-
-            if(tecla == ESCAPE) break;
+          if(tecla == ESCAPE) break;
 
             if(tecla == FLECHA_ARRIBA || tolower(tecla) == 'w') nave = NAVEARRIBA;
             if(tecla == FLECHA_IZQ || tolower(tecla) == 'a') nave = NAVEIZQ;
@@ -59,10 +62,24 @@ int main ()
             if(tecla == FLECHA_DER || tolower(tecla) == 'd') nave = NAVEDER;
 
 
-            if(y > MINREN && (tecla == FLECHA_ARRIBA || tolower(tecla) == 'w'))   MoverCursor(x,--y);
-            if(x > MINCOL && (tecla == FLECHA_IZQ    || tolower(tecla) == 'a'))   MoverCursor(--x,y);
-            if(y < MAXREN && (tecla == FLECHA_ABAJO  || tolower(tecla) == 's'))  MoverCursor(x,++y);
-            if(x < MAXCOL && (tecla == FLECHA_DER    || tolower(tecla) == 'd'))   MoverCursor(++x,y);
+            if(y > MINREN && (tecla == FLECHA_ARRIBA || tolower(tecla) == 'w')){
+                cout << ESPACIO;
+                MoverCursor(x,--y);
+            }
+
+            if(x > MINCOL && (tecla == FLECHA_IZQ    || tolower(tecla) == 'a')) {
+                cout << ESPACIO;
+                MoverCursor(--x,y);
+            }
+
+            if(y < MAXREN && (tecla == FLECHA_ABAJO  || tolower(tecla) == 's')) {
+                    cout << ESPACIO;
+                    MoverCursor(x,++y);
+            }
+            if(x < MAXCOL && (tecla == FLECHA_DER    || tolower(tecla) == 'd')){
+               cout << ESPACIO;
+               MoverCursor(++x,y);
+            }
 
             cout << nave << "\b";
 
@@ -112,3 +129,23 @@ void MoverCursor(short x, short y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
 }
 //-----------------------------------------
+void limite ()
+{
+    short x = 18 ,y = 8;
+    MoverCursor(x,y);
+
+     for (int i = 0; i <= 140 ; i++){
+        cout << ".";
+    }
+    for (int i = 0; i <= 38 ; i++){
+        MoverCursor(x,y);
+        cout << ".";
+        MoverCursor(158,++y);
+        cout << "." << endl;
+    }
+    MoverCursor(x,y);
+    for (int i = 0; i <= 140 ; i++){
+        cout << ".";
+    }
+
+}
