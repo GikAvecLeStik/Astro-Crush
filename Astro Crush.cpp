@@ -20,7 +20,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
+        player.dt();
         window.clear();
         player.draw(window);
         player.update();
