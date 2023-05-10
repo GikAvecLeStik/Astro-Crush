@@ -1,151 +1,132 @@
-#include <iostream>
-#include <windows.h>
-#include <conio.h>
-
-using namespace std;
-
-//Para el borde
-#define MINX 9
-#define MINY 4
-#define MAXX 158
-#define MAXY 46
-
-// Limites para el jugador
-#define MINCOL 20 // X
-#define MINREN 9  // y
-#define MAXCOL 156  // X
-#define MAXREN 46 // Y
-
-//controles
-#define FLECHA_ARRIBA 72
-#define FLECHA_IZQ 75
-#define FLECHA_DER 77
-#define FLECHA_ABAJO 80
-#define ESCAPE 27
-#define ESPACIO ' '
-
-
-#define NAVEIZQ 60
-#define NAVEDER 62
-#define NAVEARRIBA 94
-#define NAVEABAJO 118
-
-
-void MaximizarVentana();
-void MoverCursor(short x, short y);
-void pantalla ();
-void limite ();
-
-
-//-----------------------------------------
-int main ()
+#include <SFML/Graphics.hpp>
+#include "Player.hpp"
+#include "Menu.hpp"
+#include <cmath>
+int main()
 {
-    system("Color 0A");
-    short x= MINCOL,y = MINREN ;
-    char tecla;
-    char nave;
+    
+   
 
-    MaximizarVentana();
-    pantalla ();
-    limite ();
-
-
-    MoverCursor(x,y);
-    while(true){
-        if(kbhit()){
-          tecla = getch();
-          if(tecla == ESCAPE) break;
-
-            if(tecla == FLECHA_ARRIBA || tolower(tecla) == 'w') nave = NAVEARRIBA;
-            if(tecla == FLECHA_IZQ || tolower(tecla) == 'a') nave = NAVEIZQ;
-            if(tecla == FLECHA_ABAJO || tolower(tecla) == 's') nave = NAVEABAJO;
-            if(tecla == FLECHA_DER || tolower(tecla) == 'd') nave = NAVEDER;
-
-
-            if(y > MINREN && (tecla == FLECHA_ARRIBA || tolower(tecla) == 'w')){
-                cout << ESPACIO;
-                MoverCursor(x,--y);
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
+    
+    Player player;
+    Menu menu(window.getSize().x, window.getSize().y);
+    
+    while (window.isOpen())
+    {
+        
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
             }
 
-            if(x > MINCOL && (tecla == FLECHA_IZQ    || tolower(tecla) == 'a')) {
-                cout << ESPACIO;
-                MoverCursor(--x,y);
+            if (event.type == sf::Event::KeyReleased)
+            {
+                if (event.key.code == sf::Keyboard::W)
+                {
+                    menu.moveUp();
+                    break;
+                }
+
+                if (event.key.code == sf::Keyboard::S)
+                {
+                    menu.moveDown();
+                    break;
+                }
+
+                if (event.key.code == sf::Keyboard::Return);
+                {
+                    sf::RenderWindow Jugar(sf::VideoMode(1280, 720), "Astro");
+                    sf::RenderWindow Creditos(sf::VideoMode(1280, 720), "SFML works!");
+                    sf::RenderWindow Intrucciones(sf::VideoMode(1280, 720), "SFML works!");
+                    int d = menu.menuPressed();
+                    if (d == 0)
+                    {
+                        while (Jugar.isOpen())
+                        {
+                            sf::Event aevent;
+                            while (Jugar.pollEvent(aevent))
+                            {
+                                if (aevent.type == sf::Event::Closed)
+                                {
+                                    Jugar.close();
+                                }
+                                if (aevent.type == sf::Event::KeyReleased)
+                                {
+                                    if (aevent.key.code == sf::Keyboard::Escape);
+                                    {
+                                        Jugar.close();
+                                    }
+                                }
+                            }
+                            Creditos.close();
+                            Intrucciones.close();
+                            Jugar.clear();
+                            Jugar.display();
+                        }
+                    }
+                    if (d == 1)
+                    {
+                        while (Intrucciones.isOpen())
+                        {
+                            sf::Event aevent;
+                            while (Intrucciones.pollEvent(aevent))
+                            {
+                                if (aevent.type == sf::Event::Closed)
+                                {
+                                    Intrucciones.close();
+                                }
+                                if (aevent.type == sf::Event::KeyReleased)
+                                {
+                                    if (aevent.key.code == sf::Keyboard::Escape);
+                                    {
+                                        Intrucciones.close();
+                                    }
+                                }
+                            }
+                            Creditos.close();
+                            Jugar.close();
+                            Intrucciones.clear();
+                            Intrucciones.display();
+                        }
+                    }
+                    if (d == 2)
+                    {
+                        while (Creditos.isOpen())
+                        {
+                            sf::Event aevent;
+                            while (Creditos.pollEvent(aevent))
+                            {
+                                if (aevent.type == sf::Event::Closed)
+                                {
+                                    Creditos.close();
+                                }
+                                if (aevent.type == sf::Event::KeyReleased)
+                                {
+                                    if (aevent.key.code == sf::Keyboard::Escape);
+                                    {
+                                        Creditos.close();
+                                    }
+                                }
+                            }
+                            Intrucciones.close();
+                            Jugar.close();
+                            Creditos.clear();
+                            Creditos.display();
+                        }
+                    }
+                    if (d = 3)
+                        window.close();
+                    break;
+                }
             }
-
-            if(y < MAXREN && (tecla == FLECHA_ABAJO  || tolower(tecla) == 's')) {
-                    cout << ESPACIO;
-                    MoverCursor(x,++y);
-            }
-            if(x < MAXCOL && (tecla == FLECHA_DER    || tolower(tecla) == 'd')){
-               cout << ESPACIO;
-               MoverCursor(++x,y);
-            }
-
-            cout << nave << "\b";
-
-
-        }
+        }            
+        window.clear();       
+        menu.drawMenu(window);
+        window.display();
     }
-
-    cout << "\n\n";
-    system ("pause");
     return 0;
-}
-//-----------------------------------------
-void pantalla ()
-{
-    short x = MINX ,y = MINY;
-    MoverCursor(x,y);
-
-     for (int i = 0; i <= MAXX ; i++){
-        cout << ".";
-    }
-    for (int i = 0; i <= MAXY ; i++){
-        MoverCursor(x,y);
-        cout << ".";
-        MoverCursor(167,++y);
-        cout << "." << endl;
-    }
-    MoverCursor(x,y);
-    for (int i = 0; i <= MAXX ; i++){
-        cout << ".";
-    }
-
-}
-//-----------------------------------------
-void MaximizarVentana()
-{
-    keybd_event(VK_MENU,0x38,0,0);
-    keybd_event(VK_RETURN,0x1c,0,0);
-    keybd_event(VK_RETURN,0x1c,KEYEVENTF_KEYUP,0);
-    keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
-    return;
-}
-//-----------------------------------------
-void MoverCursor(short x, short y)
-{
-    COORD coord = {x, y};
-
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
-}
-//-----------------------------------------
-void limite ()
-{
-    short x = 18 ,y = 8;
-    MoverCursor(x,y);
-
-     for (int i = 0; i <= 140 ; i++){
-        cout << ".";
-    }
-    for (int i = 0; i <= 38 ; i++){
-        MoverCursor(x,y);
-        cout << ".";
-        MoverCursor(158,++y);
-        cout << "." << endl;
-    }
-    MoverCursor(x,y);
-    for (int i = 0; i <= 140 ; i++){
-        cout << ".";
-    }
-
 }
