@@ -156,7 +156,7 @@ int main (){
 
     Texture t1,t2,t3;
     t1.loadFromFile("images/spaceship.png");
-    t2.loadFromFile("images/fondo.png");
+//    t2.loadFromFile("images/fondo.png"); falta el fondo
     t3.loadFromFile("images/fire_blue.png");
 
 
