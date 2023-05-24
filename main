@@ -230,8 +230,8 @@ int main (){
 
 
 
-
-    if (rand()%150==0)
+   //Asteroides en la pantalla 
+    if (rand()%3==0)
      {
        asteroid *a = new asteroid();
        a->settings(sRock_small, 0,rand()%H, rand()%360, 25);
