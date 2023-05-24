@@ -176,11 +176,12 @@ int main (){
     app.setFramerateLimit(60);
 
 
+    //texturas
     Texture t1,t2,t3,t4;
-    t1.loadFromFile("images/Untitled5.png");
-    t2.loadFromFile("images/fondo.png");
-    t3.loadFromFile("images/Untitled4.png");
-    t4.loadFromFile("images/Untitled7.png");
+    t1.loadFromFile("images/Untitled5.png"); //nave
+    t2.loadFromFile("images/fondo.png"); //todavia no tenemos fondo
+    t3.loadFromFile("images/Untitled4.png"); //balas
+    t4.loadFromFile("images/Untitled7.png"); //asteroides
 
 
     t1.setSmooth(true);
