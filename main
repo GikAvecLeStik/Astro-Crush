@@ -124,13 +124,13 @@ class player: public Entity
    void update()
    {
      if (thrust)
-      { dx+=cos(angle*DEGTORAD)*0.2;
-        dy+=sin(angle*DEGTORAD)*0.2; }
+      { dx+=cos(angle*DEGTORAD)*0.1;
+        dy+=sin(angle*DEGTORAD)*0.1; }
      else
       { dx*=0.99;
         dy*=0.99; }
 
-    int maxSpeed=10;
+    int maxSpeed=5;
     float speed = sqrt(dx*dx+dy*dy);
     if (speed>maxSpeed)
      { dx *= maxSpeed/speed;
@@ -168,6 +168,13 @@ class bullet: public Entity
 
 };
 
+bool isCollide(Entity *a,Entity *b)
+{
+  return (b->x - a->x)*(b->x - a->x)+
+         (b->y - a->y)*(b->y - a->y)<
+         (a->R + b->R)*(a->R + b->R);
+}
+
 int main (){
 
     srand(time(0));
@@ -176,16 +183,15 @@ int main (){
     app.setFramerateLimit(60);
 
 
-    //texturas
     Texture t1,t2,t3,t4;
-    t1.loadFromFile("images/Untitled5.png"); //nave
-    t2.loadFromFile("images/fondo.png"); //todavia no tenemos fondo
-    t3.loadFromFile("images/Untitled4.png"); //balas
-    t4.loadFromFile("images/Untitled7.png"); //asteroides
+    t1.loadFromFile("images/Untitled5.png");
+    t2.loadFromFile("images/fondo.png");
+    t3.loadFromFile("images/Untitled4.png");
+    t4.loadFromFile("images/Untitled7.png");
 
 
     t1.setSmooth(true);
-    
+
     Animation sBullet(t3, 0,0,32,64, 16, 0.8);
     Animation sPlayer(t1, 40,0,40,40, 1, 0);
     Animation sPlayer_go(t1, 40,40,40,40, 1, 0);
@@ -194,13 +200,12 @@ int main (){
 
     std::list<Entity*> entities;
 
-    for(int i=0;i<15;i++)
+    for(int i=0;i<3;i++)
     {
       asteroid *a = new asteroid();
       a->settings(sRock_small, rand()%W, rand()%H, rand()%360, 25);
       entities.push_back(a);
     }
-
 
     player *p = new player();
     p->settings(sPlayer,200,200,0,20);
@@ -216,7 +221,7 @@ int main (){
                 app.close();
 
             if (event.type == Event::KeyPressed)
-             if (event.key.code == Keyboard::Space)
+             if (event.key.code == Keyboard::Z)
               {
                 bullet *b = new bullet();
                 b->settings(sBullet,p->x,p->y,p->angle,10);
@@ -226,13 +231,13 @@ int main (){
 
     if (Keyboard::isKeyPressed(Keyboard::Right)) p->angle+=3;
     if (Keyboard::isKeyPressed(Keyboard::Left))  p->angle-=3;
-    if (Keyboard::isKeyPressed(Keyboard::Up)) p->thrust=true;
+    if (Keyboard::isKeyPressed(Keyboard::Space)) p->thrust=true;
     else p->thrust=false;
 
 
 
-   //Asteroides en la pantalla 
-    if (rand()%3==0)
+
+    if (rand()%300 == 0)
      {
        asteroid *a = new asteroid();
        a->settings(sRock_small, 0,rand()%H, rand()%360, 25);
