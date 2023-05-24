@@ -1,28 +1,37 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <cstdlib>
 #include "Menu.hpp"
 
 Menu::Menu(float wid, float hei)
 {
-	mainmenu[0].setFillColor(sf::Color::White);
+	if (!font.loadFromFile("Fonts/Pixelated Regular.ttf"))
+	{
+		std::cout << "no hay ninguna fuente";
+	}
+	mainmenu[0].setFont(font);
+	mainmenu[0].setFillColor(sf::Color::Black);
 	mainmenu[0].setString("Jugar");
-	mainmenu[0].setCharacterSize(1280);
-	mainmenu[0].setPosition(700, 400);
+	mainmenu[0].setCharacterSize(40);
+	mainmenu[0].setPosition(480, 300);
 
-	mainmenu[1].setFillColor(sf::Color::White);
+	mainmenu[1].setFont(font);
+	mainmenu[1].setFillColor(sf::Color::Black);
 	mainmenu[1].setString("Instrucciones");
-	mainmenu[1].setCharacterSize(70);
-	mainmenu[1].setPosition(160, 70);
+	mainmenu[1].setCharacterSize(40);
+	mainmenu[1].setPosition(400, 350);
 
-	mainmenu[2].setFillColor(sf::Color::White);
+	mainmenu[2].setFont(font);
+	mainmenu[2].setFillColor(sf::Color::Black);
 	mainmenu[2].setString("Creditos");
-	mainmenu[2].setCharacterSize(70);
-	mainmenu[2].setPosition(160, 45);
+	mainmenu[2].setCharacterSize(40);
+	mainmenu[2].setPosition(360, 390);
 
-	mainmenu[3].setFillColor(sf::Color::White);
+	mainmenu[3].setFont(font);
+	mainmenu[3].setFillColor(sf::Color::Black);
 	mainmenu[3].setString("Salir");
-	mainmenu[3].setCharacterSize(70);
-	mainmenu[3].setPosition(160, 22);
+	mainmenu[3].setCharacterSize(40);
+	mainmenu[3].setPosition(640, 420);
 
 	menuSelect = -1;
 }
@@ -31,9 +40,9 @@ Menu::~Menu()
 
 }
 
-void Menu::drawMenu(sf::RenderWindow& window)
+void Menu::draw(sf::RenderWindow& window)
 {
-	for (int i = 0; i < maxMenu; i++)
+	for (int i = 0; i < maxMenu; ++i)
 	{
 
 		window.draw(mainmenu[i]);
@@ -44,7 +53,7 @@ void Menu::moveUp()
 {
 	if (menuSelect - 1 >= 0)
 	{
-		mainmenu[menuSelect].setFillColor(sf::Color::White);
+		mainmenu[menuSelect].setFillColor(sf::Color::Black);
 		menuSelect--;
 		if (menuSelect == -1)
 		{
@@ -57,7 +66,7 @@ void Menu::moveDown()
 {
 	if (menuSelect + 1 <= maxMenu)
 	{
-		mainmenu[menuSelect].setFillColor(sf::Color::White);
+		mainmenu[menuSelect].setFillColor(sf::Color::Black);
 		menuSelect++;
 		if (menuSelect == 4)
 		{
