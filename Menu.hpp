@@ -6,7 +6,7 @@ class Menu
 	
 public:
 	Menu(float wid, float hei);
-	void drawMenu(sf::RenderWindow& window);
+	void draw(sf::RenderWindow& window);
 	void moveUp();
 	void moveDown();
 
@@ -16,6 +16,7 @@ public:
 	~Menu();
 private:
 	int menuSelect;
+	sf::Font font;
 	sf::Text mainmenu[maxMenu];
 };
 
