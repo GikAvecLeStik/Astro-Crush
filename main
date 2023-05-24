@@ -155,9 +155,9 @@ int main (){
 
 
     Texture t1,t2,t3;
-    t1.loadFromFile("images/spaceship.png");
-//    t2.loadFromFile("images/fondo.png"); falta el fondo
-    t3.loadFromFile("images/fire_blue.png");
+    t1.loadFromFile("images/Untitled5.png");
+    t2.loadFromFile("images/fondo.png");
+    t3.loadFromFile("images/Untitled4.png");
 
 
     t1.setSmooth(true);
@@ -215,6 +215,8 @@ int main (){
         for(auto i:entities) i->draw(app);
         app.display();
     }
+
+
 
 return 0;
 }
