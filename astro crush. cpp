@@ -1,7 +1,8 @@
+#include <SFML/Graphics.hpp>
+
 int main (){
 
     srand(time(0));
-
     RenderWindow app(VideoMode(W, H), "Astro crush");
     app.setFramerateLimit(60);
 
