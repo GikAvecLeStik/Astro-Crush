@@ -5,7 +5,8 @@ int main (){
     srand(time(0));
     RenderWindow app(VideoMode(W, H), "Astro crush");
     app.setFramerateLimit(60);
-
+    
+    //Texturas
     Texture t1,t2,t3,t4;
     t1.loadFromFile("images/Untitled5.png");
     t2.loadFromFile("images/fondo.png");
@@ -14,6 +15,7 @@ int main (){
 
     t1.setSmooth(true);
     
+    //Animaciones
     Animation sBullet(t3, 0,0,32,64, 16, 0.8);
     Animation sPlayer(t1, 40,0,40,40, 1, 0);
     Animation sPlayer_go(t1, 40,40,40,40, 1, 0);
