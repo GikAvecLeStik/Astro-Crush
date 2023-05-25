@@ -23,6 +23,7 @@ int main (){
 
     std::list<Entity*> entities;
 
+//Cantidad de asteroides que imprime 
     for(int i=0;i<3;i++)
     {
       asteroid *a = new asteroid();
@@ -35,7 +36,7 @@ int main (){
     p->settings(sPlayer,20,20,0,20);
     entities.push_back(p);
 
-
+// main loop
     while (app.isOpen())
     {
         Event event;
@@ -53,11 +54,13 @@ int main (){
               }
         }
 
+//Controles
     if (Keyboard::isKeyPressed(Keyboard::Right)) p->angle+=3;
     if (Keyboard::isKeyPressed(Keyboard::Left))  p->angle-=3;
     if (Keyboard::isKeyPressed(Keyboard::Space)) p->thrust=true;
     else p->thrust=false;
 
+//Si disparas un asteroide
      for(auto a:entities)
      for(auto b:entities)
      {
@@ -80,7 +83,7 @@ int main (){
             }
 
            }
-
+// Si chocas con un asteroide
        if (a->name=="player" && b->name=="asteroid")
        if ( isCollide(a,b) )
            {
@@ -96,7 +99,7 @@ int main (){
      }
 
 
-
+//La neta no se que hace este for, pero no le muevan
     if (rand()%500 == 0)
      {
        asteroid *a = new asteroid();
