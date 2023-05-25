@@ -1,4 +1,8 @@
-
+#include <SFML/Graphics.hpp>
+#include "controles.hpp"
+#include <time.h>
+#include <list>
+#include <cmath>
 
 const int W = 1200;
 const int H = 700;
