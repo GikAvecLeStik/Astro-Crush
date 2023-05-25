@@ -3,13 +3,6 @@ const int H = 700;
 
 float DEGTORAD = 0.017453f;
 
-#include <SFML/Graphics.hpp>
-#include "controles.hpp"
-#include <time.h>
-#include <list>
-#include <cmath>
-
-
 //--------------------------------------------------------------------------------------------------------------
 class Animation
 {
