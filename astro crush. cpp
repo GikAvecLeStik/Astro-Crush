@@ -66,8 +66,6 @@ int main (){
             b->life=false;
 
             Entity *e = new Entity();
-//            e->settings(sExplosion,a->x,a->y);
-//            e->name="explosion";
             entities.push_back(e);
 
 
@@ -87,8 +85,6 @@ int main (){
             b->life=false;
 
             Entity *e = new Entity();
-//          e->settings(sExplosion_ship,a->x,a->y);
-//          e->name="explosion";
             entities.push_back(e);
 
             p->settings(sPlayer,20,20,0,20);
@@ -123,7 +119,6 @@ int main (){
 
         //draw
         app.clear();
-       // app.draw(background);
         for(auto i:entities) i->draw(app);
         app.display();
     }
