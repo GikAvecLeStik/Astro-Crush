@@ -130,7 +130,7 @@ class player: public Entity
       { dx*=0.99;
         dy*=0.99; }
 
-    int maxSpeed=5;
+    int maxSpeed = 5;
     float speed = sqrt(dx*dx+dy*dy);
     if (speed>maxSpeed)
      { dx *= maxSpeed/speed;
@@ -179,7 +179,7 @@ int main (){
 
     srand(time(0));
 
-    RenderWindow app(VideoMode(W, H), "Asteroids!");
+    RenderWindow app(VideoMode(W, H), "Astro crush");
     app.setFramerateLimit(60);
 
 
@@ -207,8 +207,9 @@ int main (){
       entities.push_back(a);
     }
 
+    // posicion del jugador
     player *p = new player();
-    p->settings(sPlayer,200,200,0,20);
+    p->settings(sPlayer,20,20,0,20);
     entities.push_back(p);
 
 
@@ -234,10 +235,50 @@ int main (){
     if (Keyboard::isKeyPressed(Keyboard::Space)) p->thrust=true;
     else p->thrust=false;
 
+     for(auto a:entities)
+     for(auto b:entities)
+     {
+      if (a->name=="asteroid" && b->name=="bullet")
+       if ( isCollide(a,b) )
+           {
+            a->life=false;
+            b->life=false;
+
+            Entity *e = new Entity();
+//            e->settings(sExplosion,a->x,a->y);
+//            e->name="explosion";
+            entities.push_back(e);
+
+
+            for(int i=0;i<2;i++)
+            {
+             if (a->R==15) continue;
+             Entity *e = new asteroid();
+             e->settings(sRock_small,a->x,a->y,rand()%360,15);
+             entities.push_back(e);
+            }
+
+           }
+
+       if (a->name=="player" && b->name=="asteroid")
+       if ( isCollide(a,b) )
+           {
+            b->life=false;
+
+            Entity *e = new Entity();
+//          e->settings(sExplosion_ship,a->x,a->y);
+//          e->name="explosion";
+            entities.push_back(e);
+
+            p->settings(sPlayer,20,20,0,20);
+            p->dx=0; p->dy=0;
+           }
+
+     }
 
 
 
-    if (rand()%300 == 0)
+    if (rand()%500 == 0)
      {
        asteroid *a = new asteroid();
        a->settings(sRock_small, 0,rand()%H, rand()%360, 25);
