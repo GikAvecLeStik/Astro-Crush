@@ -4,10 +4,7 @@
 #include <list>
 #include <cmath>
 
-const int W = 1200;
-const int H = 700;
 
-float DEGTORAD = 0.017453f;
 //--------------------------------------------------------------------------------------------------------------
 class Animation
 {
