@@ -1,3 +1,5 @@
+
+
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <list>
@@ -5,8 +7,8 @@
 
 using namespace sf;
 
-const int W = 1200;
-const int H = 700;
+const int W = 1280;
+const int H = 720;
 
 float DEGTORAD = 0.017453f;
 
@@ -146,7 +148,6 @@ class player: public Entity
 };
 
 
-
 class bullet: public Entity
 {
    public:
@@ -184,13 +185,17 @@ int main (){
 
 
     Texture t1,t2,t3,t4;
-    t1.loadFromFile("images/Untitled5.png");
-    t2.loadFromFile("images/fondo.png");
-    t3.loadFromFile("images/Untitled4.png");
-    t4.loadFromFile("images/Untitled7.png");
+    t1.loadFromFile("images/naveGud.png");
+    t2.loadFromFile("images/espacio.png");
+    t3.loadFromFile("images/balas.png");
+    t4.loadFromFile("images/asteroides.png");
+
 
 
     t1.setSmooth(true);
+    t2.setSmooth(true);
+
+    Sprite fondo(t2);
 
     Animation sBullet(t3, 0,0,32,64, 16, 0.8);
     Animation sPlayer(t1, 40,0,40,40, 1, 0);
@@ -272,6 +277,7 @@ int main (){
 
             p->settings(sPlayer,20,20,0,20);
             p->dx=0; p->dy=0;
+
            }
 
      }
@@ -302,10 +308,20 @@ int main (){
 
         //draw
         app.clear();
-       // app.draw(background);
+        app.draw(fondo);
         for(auto i:entities) i->draw(app);
         app.display();
     }
 
 return 0;
 }
+
+
+
+
+
+
+
+
+
+
