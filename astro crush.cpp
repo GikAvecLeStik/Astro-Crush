@@ -1,3 +1,5 @@
+// funcion main
+
 #include <SFML/Graphics.hpp>
 
 int main (){
