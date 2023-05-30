@@ -1,10 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include "Player.hpp"
-#include "Menu.hpp"
-#include <cmath>
-int main()
-{
-    
+   
    
 
     sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!",sf::Style::Default);
@@ -13,6 +7,12 @@ int main()
     bg.setSize(sf::Vector2f(1280, 720));
     mainbg.loadFromFile("Textures/menu.png");
     bg.setTexture(&mainbg);
+    //menu2
+    sf::RectangleShape bg2;
+    sf::Texture pbg;
+    bg2.setSize(sf::Vector2f(1280, 720));
+    pbg.loadFromFile("Textures/menu2.png");
+    bg2.setTexture(&pbg);
     Player player;
     Menu menu(window.getSize().x, window.getSize().y);
     
@@ -43,89 +43,89 @@ int main()
 
                 if (event.key.code == sf::Keyboard::Return)
                 {
-                    sf::RenderWindow Jugar(sf::VideoMode(1280, 720), "Astro");
-                    Jugar.setView(sf::View(sf::FloatRect(0, 0, 320, 180)));
-                    sf::RenderWindow Creditos(sf::VideoMode(1280, 720), "callate");
-                    sf::RenderWindow Intrucciones(sf::VideoMode(1280, 720), "bobo");
+                    
+                    
+                    
                     int c = menu.menuPressed();
                     if (c == 0)
                     {
-                        while (Jugar.isOpen())
+                        while (window.isOpen())
                         {
                             sf::Event aevent;
-                            while (Jugar.pollEvent(aevent))
+                            while (window.pollEvent(aevent))
                             {
                                 if (aevent.type == sf::Event::Closed)
                                 {
-                                    Jugar.close();
+                                    window.close();
                                 }
                                 if (aevent.type == sf::Event::KeyPressed)
                                 {
                                     if (aevent.key.code == sf::Keyboard::Escape)
                                     {
-                                        Jugar.close();
+                                        window.draw(bg);
                                     }
                                 }
                             }
-                            Intrucciones.close();
-                            Creditos.close();
+                            
+                            
                             
                             player.dt();
-                            Jugar.clear();
-                            player.draw(Jugar);
+                            window.clear();
+                            player.draw(window);
                             player.update();
-                            Jugar.display();
+                            window.display();
                         }
                     }
                     if (c == 1)
                     {
-                        while (Intrucciones.isOpen())
+                        while (window.isOpen())
                         {
                             sf::Event aevent;
-                            while (Intrucciones.pollEvent(aevent))
+                            while (window.pollEvent(aevent))
                             {
                                 if (aevent.type == sf::Event::Closed)
                                 {
-                                    Intrucciones.close();
+                                    window.close();
                                 }
                                 if (aevent.type == sf::Event::KeyPressed)
                                 {
                                     if (aevent.key.code == sf::Keyboard::Escape)
                                     {
-                                        Intrucciones.close();
-                                    }
-                                }
-                            }
-                            Jugar.close();
-                            Intrucciones.clear();
-                            Creditos.close();
-                            Intrucciones.display();
-                        }
-                    }
-                    if (c == 2)
-                    {
-                        while (Creditos.isOpen())
-                        {
-                            sf::Event aevent;
-                            while (Creditos.pollEvent(aevent))
-                            {
-                                if (aevent.type == sf::Event::Closed)
-                                {
-                                    Creditos.close();
-                                }
-                                if (aevent.type == sf::Event::KeyPressed)
-                                {
-                                    if (aevent.key.code == sf::Keyboard::Escape)
-                                    {
-                                        Creditos.close();
+
+                                        window.draw(bg);
                                     }
                                 }
                             }
                             
-                            Jugar.close();
-                            Intrucciones.clear();
-                            Creditos.clear();
-                            Creditos.display();
+                            window.clear();
+                            window.draw(bg2);
+                            window.display();
+                        }
+                    }
+                    if (c == 2)
+                    {
+                        while (window.isOpen())
+                        {
+                            sf::Event aevent;
+                            while (window.pollEvent(aevent))
+                            {
+                                if (aevent.type == sf::Event::Closed)
+                                {
+                                    window.close();
+                                }
+                                if (aevent.type == sf::Event::KeyPressed)
+                                {
+                                    if (aevent.key.code == sf::Keyboard::Escape)
+                                    {
+                                        window.close();
+                                    }
+                                }
+                            }
+                            
+                            
+                            
+                            window.clear();
+                            window.display();
                         }
                     }
                     if (c = 3)
