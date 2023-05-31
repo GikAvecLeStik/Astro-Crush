@@ -1,22 +1,37 @@
 #pragma once
 #include <iostream>
-#define maxMenu 4
+
+
+enum class Option { MainMenu, Game , Instructions, Credits };
+
 class Menu
 {
-	
 public:
-	Menu(float wid, float hei);
-	void draw(sf::RenderWindow& window);
-	void moveUp();
-	void moveDown();
+    Menu();
 
-	int menuPressed() {
-		return menuSelect;
-	}
-	~Menu();
+    void run();
+
 private:
-	int menuSelect;
-	sf::Font font;
-	sf::Text mainmenu[maxMenu];
+    void processEvents();
+    void update();
+    void render();
+    void showGame();
+    void handleMainMenuClick(int x, int y);
+    void handleInstructionsClick(int x, int y);
+    void handleCreditsClick(int x, int y);
+    void handleReturnClick(int x, int y);
+
+    sf::RenderWindow m_window;
+    sf::Texture m_backgroundTexture;
+    sf::Sprite m_backgroundSprite;
+    sf::Texture m_background2Texture;
+    sf::Sprite m_background2Sprite;
+    sf::Texture m_instructionsTexture;
+    sf::Sprite m_instructionsSprite;
+    sf::Texture m_creditsTexture;
+    sf::Sprite m_creditsSprite;
+    sf::Font m_font;
+
+    Option m_currentState;
 };
 
