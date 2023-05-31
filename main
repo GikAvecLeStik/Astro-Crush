@@ -1,143 +1,15 @@
    
    
+#include <SFML/Graphics.hpp>
+#include "Player.hpp"
+#include "Menu.hpp"
+#include <cmath>
 
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!",sf::Style::Default);
-    sf::RectangleShape bg;
-    sf::Texture mainbg;
-    bg.setSize(sf::Vector2f(1280, 720));
-    mainbg.loadFromFile("Textures/menu.png");
-    bg.setTexture(&mainbg);
-    //menu2
-    sf::RectangleShape bg2;
-    sf::Texture pbg;
-    bg2.setSize(sf::Vector2f(1280, 720));
-    pbg.loadFromFile("Textures/menu2.png");
-    bg2.setTexture(&pbg);
-    Player player;
-    Menu menu(window.getSize().x, window.getSize().y);
+int main()
+{
     
-    while (window.isOpen())
-    {
-        
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
+    Menu menu;
+    menu.run();
 
-            if (event.type == sf::Event::KeyReleased)
-            {
-                if (event.key.code == sf::Keyboard::W)
-                {
-                    menu.moveUp();
-                    break;
-                }
-
-                if (event.key.code == sf::Keyboard::S)
-                {
-                    menu.moveDown();
-                    break;
-                }
-
-                if (event.key.code == sf::Keyboard::Return)
-                {
-                    
-                    
-                    
-                    int c = menu.menuPressed();
-                    if (c == 0)
-                    {
-                        while (window.isOpen())
-                        {
-                            sf::Event aevent;
-                            while (window.pollEvent(aevent))
-                            {
-                                if (aevent.type == sf::Event::Closed)
-                                {
-                                    window.close();
-                                }
-                                if (aevent.type == sf::Event::KeyPressed)
-                                {
-                                    if (aevent.key.code == sf::Keyboard::Escape)
-                                    {
-                                        window.draw(bg);
-                                    }
-                                }
-                            }
-                            
-                            
-                            
-                            player.dt();
-                            window.clear();
-                            player.draw(window);
-                            player.update();
-                            window.display();
-                        }
-                    }
-                    if (c == 1)
-                    {
-                        while (window.isOpen())
-                        {
-                            sf::Event aevent;
-                            while (window.pollEvent(aevent))
-                            {
-                                if (aevent.type == sf::Event::Closed)
-                                {
-                                    window.close();
-                                }
-                                if (aevent.type == sf::Event::KeyPressed)
-                                {
-                                    if (aevent.key.code == sf::Keyboard::Escape)
-                                    {
-
-                                        window.draw(bg);
-                                    }
-                                }
-                            }
-                            
-                            window.clear();
-                            window.draw(bg2);
-                            window.display();
-                        }
-                    }
-                    if (c == 2)
-                    {
-                        while (window.isOpen())
-                        {
-                            sf::Event aevent;
-                            while (window.pollEvent(aevent))
-                            {
-                                if (aevent.type == sf::Event::Closed)
-                                {
-                                    window.close();
-                                }
-                                if (aevent.type == sf::Event::KeyPressed)
-                                {
-                                    if (aevent.key.code == sf::Keyboard::Escape)
-                                    {
-                                        window.close();
-                                    }
-                                }
-                            }
-                            
-                            
-                            
-                            window.clear();
-                            window.display();
-                        }
-                    }
-                    if (c = 3)
-                        window.close();
-                    break;
-                }
-            }
-        }            
-        window.clear();  
-        window.draw(bg);
-        menu.draw(window);
-        window.display();
-    }
     return 0;
 }
