@@ -28,15 +28,10 @@ class Entity
    bool life;
    std::string name;
    Animation anim;
-
    Entity();
-   
    void settings(Animation &a,int X,int Y,float Angle=0,int radius=1);
- 
    virtual void update(){};
-
    void draw(RenderWindow &app);
- 
    virtual ~Entity(){};
 };
 //--------------------------------------------------------------------------------------------------------------
@@ -45,8 +40,6 @@ class asteroid: public Entity
 {
    public:
    asteroid();
-  
-
    void update();
   
 };
@@ -55,9 +48,7 @@ class player: public Entity
 {
    public:
    bool thrust;
-
    player();
-
    void update();
 
 };
@@ -67,8 +58,6 @@ class bullet: public Entity
 {
    public:
    bullet();
-  
-
    void  update();
    
 
