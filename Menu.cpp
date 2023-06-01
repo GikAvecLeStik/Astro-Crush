@@ -5,6 +5,7 @@
 #include "Menu.hpp"
 #include "Player.hpp"
 
+
 Player player;
 Menu::Menu()
     : m_window(sf::VideoMode(1280, 720), "SFML Menu Example")
@@ -205,36 +206,12 @@ void Menu::showGame()
 {
     m_gameMusic.play();
 
-    Player player;
+    runGame(m_window);
 
-    while (m_window.isOpen())
-    {
-        sf::Event event;
-        while (m_window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                m_window.close();
-                return;
-            }
-            else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-            {
-                m_gameMusic.stop();
-                return; // Volver al menú principal
-            }
-        }
-        player.update();
-
-        m_window.clear();
-        m_window.draw(m_background2Sprite);
-        player.draw(m_window);
-
-        m_window.display();
-        m_menuMusic.stop();
-    }
     m_gameMusic.stop();
 
 }
+
 
 void Menu::handleMainMenuClick(int x, int y)
 {
@@ -262,15 +239,7 @@ void Menu::handleMainMenuClick(int x, int y)
     }
 }
 
-void Menu::handleInstructionsClick(int x, int y)
-{
-    // No se requiere lógica específica para este ejemplo
-}
 
-void Menu::handleCreditsClick(int x, int y)
-{
-    // No se requiere lógica específica para este ejemplo
-}
 
 void Menu::handleReturnClick(int x, int y)
 {
