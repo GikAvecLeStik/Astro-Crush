@@ -1,94 +1,125 @@
-#include <SFML/Graphics.hpp>
 #include "Player.hpp"
-#include <cmath>
+float DEGTORAD = 0.017453f;
+Animation::Animation(sf::Texture& t, int x, int y, int w, int h, int count, float Speed)
+{
+    Frame = 0;
+    speed = Speed;
 
-Player::Player() 
-{
-	texture.loadFromFile("Textures/nave.png");
-	sprite.setTexture(texture);
+    for (int i = 0; i < count; i++)
+        frames.push_back(sf::IntRect(x + i * w, y, w, h));
+
+    sprite.setTexture(t);
+    sprite.setOrigin(w / 2, h / 2);
+    sprite.setTextureRect(frames[0]);
 }
-void Player::draw (sf::RenderWindow& i_window)
+
+void Animation::update()
 {
-	sprite.setPosition(160, 90);
-	sprite.setOrigin(texture.getSize().x/2, texture.getSize().y/2);
-	
-	i_window.draw(sprite);
+    Frame += speed;
+    int n = frames.size();
+    if (Frame >= n) Frame -= n;
+    if (n > 0) sprite.setTextureRect(frames[int(Frame)]);
 }
+
+bool Animation::isEnd()
+{
+    return Frame + speed >= frames.size();
+}
+
+Entity::Entity()
+{
+    life = 1;
+}
+
+void Entity::settings(Animation& a, int X, int Y, float Angle, int radius)
+{
+    anim = a;
+    x = X; y = Y;
+    angle = Angle;
+    R = radius;
+}
+
+void Entity::draw(sf::RenderWindow& app)
+{
+    anim.sprite.setPosition(x, y);
+    anim.sprite.setRotation(angle + 90);
+    app.draw(anim.sprite);
+
+    sf::CircleShape circle(R);
+    circle.setFillColor(sf::Color(255, 0, 0, 170));
+    circle.setPosition(x, y);
+    circle.setOrigin(R, R);
+}
+
+asteroid::asteroid()
+{
+    dx = rand() % 8 - 4;
+    dy = rand() % 8 - 4;
+    name = "asteroid";
+}
+
+void asteroid::update()
+{
+    x += dx;
+    y += dy;
+
+    if (x > W) x = 0;  if (x < 0) x = W;
+    if (y > H) y = 0;  if (y < 0) y = H;
+}
+
+Player::Player()
+{
+    name = "player";
+}
+
 void Player::update()
 {
-	movement.x = 250;
-	movement.y = 250;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		sprite.rotate(-x * x_SPEED * det);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		sprite.rotate(x * x_SPEED * det);
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		{
-			movimiento();
-		}
-	
+    if (thrust)
+    {
+        dx += cos(angle * DEGTORAD) * 0.1;
+        dy += sin(angle * DEGTORAD) * 0.1;
+    }
+    else
+    {
+        dx *= 0.99;
+        dy *= 0.99;
+    }
+
+    int maxSpeed = 5;
+    float speed = sqrt(dx * dx + dy * dy);
+    if (speed > maxSpeed)
+    {
+        dx *= maxSpeed / speed;
+        dy *= maxSpeed / speed;
+    }
+
+    x += dx;
+    y += dy;
+
+    if (x > W) x = 0; if (x < 0) x = W;
+    if (y > H) y = 0; if (y < 0) y = H;
 }
-void Player::dt()
+
+bullet::bullet()
 {
-	det = clock.restart().asSeconds();
+    name = "bullet";
 }
-double Player::Degtorad(double r)
+
+void bullet::update()
 {
-	r *= 0.0174533;
+    dx = cos(angle * DEGTORAD) * 6;
+    dy = sin(angle * DEGTORAD) * 6;
 
-	return r;
+    x += dx;
+    y += dy;
+
+    if (x > W || x<0 || y>H || y < 0) life = 0;
 }
-void Player::movimiento()
+
+bool isCollide(Entity* a, Entity* b)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		applyThrust();
-
-		movement.x += velx;
-		movement.y += vely;
-
-
-
-		sprite.move(movement.x*det, movement.y*det);
-
-	}
-	
-	//movement.x = velocity * sin(0.0174533 * sprite.getRotation());
-	//movement.y = velocity * -cos(0.0174533 * sprite.getRotation());
-
-	//dx += movement.x * 0.2;
-	//dy -= movement.y * 0.2;
-
-	////dx = xVel * sin(Degtorad(sprite.getRotation()));
-	////dy = yVel * -cos(Degtorad(sprite.getRotation()));
-
-	//sprite.move(movement.x * -200 * det, movement.y * 200 * det);
+    return (b->x - a->x) * (b->x - a->x) +
+        (b->y - a->y) * (b->y - a->y) <
+        (a->R + b->R) * (a->R + b->R);
 }
 
-void Player::applyThrust()
-{
-	/*
-	   Assume 1 total unit of thrust is applied each time you hit the thrust button
-	   so you break down the velocity into x and y components depending on the direction
-	   your ship is facing.
-	*/
-	// thrustUnit is how much thrust each thrust button press gets you, it's arbitrary
-	// and can be the 2.5 multiplier you're using in your question
-	float thrustUnit = 1.0;
-	_angle = (0.0174533 * sprite.getRotation());
-	// now get the x and y thrust components of velocity based on your ship's direction
-	// assuming 0 degrees is pointing to the right
-
-	newVX = thrustUnit * cos(_angle);
-	newVY = thrustUnit * sin(_angle); // radian conversion left out to save space
-
-	// Update your ship's velocity
-	updateVelocity(newVX, newVY);
-}
-
-void Player::updateVelocity(float newVX, float newVY)
-{
-	// update the x component
-	velx += newVX;
-	vely += newVY;
-}
