@@ -1,63 +1,73 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <cmath>
 
-float DEGTORAD = 0.017453f;
+
 const int W = 1280;
 const int H = 720;
+extern float DEGTORAD;
+
 
 class Animation
 {
-    sf::Sprite sprite;
+public:
+	float Frame, speed;
+	sf::Sprite sprite;
+	std::vector<sf::IntRect> frames;
 
-    public:
-    float Frame, speed;
-    void update();
-    bool isEnd();
+	Animation() {}
 
+	Animation(sf::Texture& t, int x, int y, int w, int h, int count, float Speed);
 
+	void update();
+
+	bool isEnd();
 };
 
 class Entity
 {
-    sf::Animation anim;
-
-    public:
-    float x,y,dx,dy,R,angle;
-    bool life;
-    void settings();
-
-
-};
-
-class Player
-{
-	sf::Texture texture;
-	sf::Sprite sprite;
-	sf::Clock clock;
-
-	unsigned short x = (0.5f * (320 - 16));
-	unsigned short y;
-	const unsigned char x_SPEED = 2.6;
-	float thrustUnit = 1.0;
-	float velocity= 200;
-	sf::Vector2f movement;
-	sf::Vector2f direccion;
-	float newVX, newVY = 0.0;
-	float velx, vely;
-	float det;
-	double _angle;
-
-
 public:
-	Player();
-	void draw(sf::RenderWindow& i_window);
-	void update();
-    bool thrust();
+	float x, y, dx, dy, R, angle;
+	bool life;
+	std::string name;
+	Animation anim;
 
-	void dt();
-	double Degtorad(double r);
-	void movimiento();
-//	void applyThrust();
+	Entity();
 
+	void settings(Animation& a, int X, int Y, float Angle = 0, int radius = 1);
+
+	virtual void update() {};
+
+	void draw(sf::RenderWindow& app);
+
+	virtual ~Entity() {};
 };
+
+class asteroid : public Entity
+{
+public:
+	asteroid();
+
+	void update();
+};
+
+class Player : public Entity
+{
+public:
+	bool thrust;
+
+	Player();
+
+	void update();
+};
+
+class bullet : public Entity
+{
+public:
+	bullet();
+
+	void  update();
+};
+
+bool isCollide(Entity* a, Entity* b);
 
