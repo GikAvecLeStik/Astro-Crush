@@ -17,8 +17,6 @@ private:
     void render();
     void showGame();
     void handleMainMenuClick(int x, int y);
-    void handleInstructionsClick(int x, int y);
-    void handleCreditsClick(int x, int y);
     void handleReturnClick(int x, int y);
 
     sf::RenderWindow m_window;
@@ -31,6 +29,8 @@ private:
     sf::Texture m_creditsTexture;
     sf::Sprite m_creditsSprite;
     sf::Font m_font;
+    sf::Music m_menuMusic;
+    sf::Music m_gameMusic;
 
     Option m_currentState;
 };
