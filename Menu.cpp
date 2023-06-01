@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <cstdlib>
 #include "Menu.hpp"
@@ -11,6 +12,7 @@ Menu::Menu()
 {
     m_window.setFramerateLimit(60);
 
+    //fondo del menu
     if (!m_backgroundTexture.loadFromFile("Textures/menu.png"))
     {
         std::cout << "Error al cargar la imagen de fondo." << std::endl;
@@ -19,6 +21,7 @@ Menu::Menu()
     m_backgroundSprite.setTexture(m_backgroundTexture);
     m_backgroundSprite.setScale(m_window.getSize().x / static_cast<float>(m_backgroundTexture.getSize().x),m_window.getSize().y / static_cast<float>(m_backgroundTexture.getSize().y));
 
+    //fondo del juego
     if (!m_background2Texture.loadFromFile("Textures/espacio.png"))
     {
         std::cout << "Error al cargar la imagen de fondo." << std::endl;
@@ -29,6 +32,7 @@ Menu::Menu()
         m_window.getSize().x / static_cast<float>(m_background2Texture.getSize().x),
         m_window.getSize().y / static_cast<float>(m_background2Texture.getSize().y));
 
+    //fondo de instrucciones
     if (!m_instructionsTexture.loadFromFile("Textures/menu2.png"))
     {
         std::cout << "Error al cargar la imagen de instrucciones." << std::endl;
@@ -36,6 +40,7 @@ Menu::Menu()
     }
     m_instructionsSprite.setTexture(m_instructionsTexture);
 
+    //fondo de creditos
     if (!m_creditsTexture.loadFromFile("Textures/menu3.png"))
     {
         std::cout << "Error al cargar la imagen de créditos." << std::endl;
@@ -48,16 +53,38 @@ Menu::Menu()
         std::cout << "Error al cargar la fuente." << std::endl;
         return;
     }
+
+    //musica del menu
+    if (!m_menuMusic.openFromFile("Sounds/melodyloops-preview-breathe-easy-8bit-1m5s.ogg"))
+    {
+        std::cout << "Error al cargar el archivo de música del menú." << std::endl;
+        return;
+    }
+    m_menuMusic.setLoop(true);
+
+    //musica del juego
+    if (!m_gameMusic.openFromFile("Sounds/melodyloops-preview-8-bit-trance-0m55s.ogg"))
+    {
+        std::cout << "Error al cargar el archivo de música del juego." << std::endl;
+        return;
+    }
+    m_gameMusic.setLoop(true);
 }
+
+
 
 void Menu::run()
 {
+    m_menuMusic.play();
+
     while (m_window.isOpen())
     {
         processEvents();
         update();
         render();
     }
+
+    m_menuMusic.stop();
 }
 
 void Menu::processEvents()
@@ -176,7 +203,7 @@ void Menu::render()
 
 void Menu::showGame()
 {
-    
+    m_gameMusic.play();
 
     Player player;
 
@@ -192,6 +219,7 @@ void Menu::showGame()
             }
             else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
             {
+                m_gameMusic.stop();
                 return; // Volver al menú principal
             }
         }
@@ -203,7 +231,10 @@ void Menu::showGame()
         player.draw(m_window);
         
         m_window.display();
+        m_menuMusic.stop();
     }
+    m_gameMusic.stop();
+    
 }
 
 void Menu::handleMainMenuClick(int x, int y)
@@ -215,7 +246,7 @@ void Menu::handleMainMenuClick(int x, int y)
 
         showGame();
     }
-    else if (x >= 100 && x <= 300 && y >= 300 && y <= 350)
+    else if (x >= 100 && x <= 400 && y >= 300 && y <= 350)
     {
         std::cout << "Mostrar instrucciones" << std::endl;
         m_currentState = Option::Instructions;
