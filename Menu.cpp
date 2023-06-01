@@ -223,18 +223,17 @@ void Menu::showGame()
                 return; // Volver al menú principal
             }
         }
-        player.dt();
         player.update();
 
         m_window.clear();
         m_window.draw(m_background2Sprite);
         player.draw(m_window);
-        
+
         m_window.display();
         m_menuMusic.stop();
     }
     m_gameMusic.stop();
-    
+
 }
 
 void Menu::handleMainMenuClick(int x, int y)
