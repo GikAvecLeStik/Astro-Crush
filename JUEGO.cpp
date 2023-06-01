@@ -4,13 +4,11 @@
 #include <time.h>
 #include <list>
 #include <cmath>
-
 using namespace sf;
-
 const int W = 1280;
 const int H = 720;
-
 float DEGTORAD = 0.017453f;
+
 
 class Animation
 {
