@@ -71,3 +71,4 @@ public:
 
 bool isCollide(Entity* a, Entity* b);
 
+void runGame(sf::RenderWindow& app);
